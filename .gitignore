@@ -8,6 +8,7 @@
 
 # custom
 # database store file
+/kv_test/
 /store/
 /test_data
 /store_backup
