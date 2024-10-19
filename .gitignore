@@ -12,6 +12,8 @@
 /store/
 /test_data
 /store_backup
+/exec
+/repl
 
 ## File system
 .DS_Store

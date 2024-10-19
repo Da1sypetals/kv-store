@@ -1,5 +1,4 @@
-use super::parse::commands::Command;
-use crate::interface::{config::DirStoreConfig, dirstore::DirStore};
+use crate::{interface::{config::DirStoreConfig, dirstore::DirStore}, ksis::parse::commands::Command};
 use serde::{Deserialize, Serialize};
 use std::{
     fs::{self, File},
@@ -35,8 +34,10 @@ impl Execution {
         Ok(res)
     }
 
-    pub fn execute(self) -> ExecutionResult {
-        let ds = DirStore::open(self.config).expect("Failed to start DirStore instance!");
+    /// Returns an error if failed to open dirstore, succees otherwise.
+    ///  Error during execution is not caught here.
+    pub fn execute(self) -> anyhow::Result<ExecutionResult> {
+        let ds = DirStore::open(self.config)?;
 
         let result = self
             .script
@@ -66,10 +67,10 @@ impl Execution {
             .collect::<Vec<_>>()
             .join("\n");
 
-        ExecutionResult {
+        Ok(ExecutionResult {
             result,
             output_path: self.script.output_path,
-        }
+        })
     }
 }
 

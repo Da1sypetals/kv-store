@@ -1,4 +1,4 @@
-use ksis::{exec::Execution, repl::main::repl_main};
+use ksis::repl::main::repl_main;
 mod interface;
 mod ksis;
 

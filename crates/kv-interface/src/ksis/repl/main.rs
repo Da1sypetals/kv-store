@@ -10,6 +10,13 @@ pub fn repl_main(config_path: &str) -> Result<()> {
 
     // init kv store
     let config = DirStoreConfig::from_toml(config_path.into());
+    let config = match config {
+        Ok(config) => config,
+        Err(e) => {
+            eprintln!("Failed to start kv store: {}", e.to_string());
+            std::process::exit(0);
+        }
+    };
     let ds = match DirStore::open(config) {
         Ok(ds) => ds,
         Err(e) => {

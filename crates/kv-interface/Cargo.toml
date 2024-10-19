@@ -4,12 +4,20 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "repl"
+name = "repl-test"
 path = "src/repl.rs"
 
 [[bin]]
-name = "exec"
+name = "repl"
+path = "src/binary/repl.rs"
+
+[[bin]]
+name = "exec-test"
 path = "src/exec.rs"
+
+[[bin]]
+name = "exec"
+path = "src/binary/exec.rs"
 
 [dependencies]
 kv = { path = "../kv" }
@@ -23,3 +31,4 @@ num = "0.4.3"
 toml = "0.8.19"
 serde = "1.0.210"
 parking_lot = "0.12.3"
+clap = { version = "4.5.20", features = ["derive"] }

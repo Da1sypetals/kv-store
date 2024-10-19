@@ -15,14 +15,10 @@ pub struct DirStoreConfig {
 }
 
 impl DirStoreConfig {
-    pub fn from_toml(path: PathBuf) -> Self {
-        let var_name = toml::from_str(
-            fs::read_to_string(path)
-                .expect("File does not exist")
-                .as_str(),
-        );
-        let config: Self = var_name.expect("Failed to deserialize from configuration file!");
+    pub fn from_toml(path: PathBuf) -> anyhow::Result<Self> {
+        let toml_str = fs::read_to_string(path)?;
+        let config: Self = toml::from_str(toml_str.as_str())?;
 
-        config
+        Ok(config)
     }
 }
