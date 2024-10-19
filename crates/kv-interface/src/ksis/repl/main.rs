@@ -10,7 +10,13 @@ pub fn repl_main(config_path: &str) -> Result<()> {
 
     // init kv store
     let config = DirStoreConfig::from_toml(config_path.into());
-    let ds = DirStore::open(config).expect("Failed to start DirStore instance!");
+    let ds = match DirStore::open(config) {
+        Ok(ds) => ds,
+        Err(e) => {
+            eprintln!("Directory storage initialization failed: {}", e.to_string());
+            std::process::exit(1);
+        }
+    };
 
     loop {
         let readline = rl.readline("kv > ");

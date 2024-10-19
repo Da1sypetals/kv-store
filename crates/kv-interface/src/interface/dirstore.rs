@@ -1,14 +1,17 @@
 use std::{collections::HashMap, hash::Hash, sync::Arc};
 
+use bytes::Bytes;
 use kv::{batched::batched_write::BatchedWrite, definitions::types::KvBytes, store::store::Store};
 use parking_lot::Mutex;
+use serde::de;
+use thiserror::Error;
 
 use crate::ksis::parse::commands::Command;
 
 use super::{
     config::DirStoreConfig,
     data_structure::{directory::Directory, key_type::KeyType, value::Value},
-    errors::{ExecError, ExecOutput, ExecResult, ExecReturn},
+    errors::{ExecError, ExecOutput, ExecResult, ExecReturn, InitError},
 };
 
 pub struct DirStore<'a> {
@@ -17,7 +20,29 @@ pub struct DirStore<'a> {
     pub(crate) batches: Arc<Mutex<HashMap<String, BatchedWrite<'a>>>>,
 }
 
+pub enum DirStoreMetadataType {
+    Depth,
+    // todo...
+}
+
+impl DirStoreMetadataType {
+    fn encode_wrapped(self) -> Bytes {
+        let code: u8 = DirStoreMetadataType::Depth.into();
+        KeyType::Metadata.wrap_key(&code.to_be_bytes())
+    }
+}
+
+impl From<DirStoreMetadataType> for u8 {
+    fn from(value: DirStoreMetadataType) -> Self {
+        match value {
+            DirStoreMetadataType::Depth => 0,
+        }
+    }
+}
+
 impl DirStore<'_> {
+    /// Possible errors:
+    ///     - depth mismatch error
     pub fn open(config: DirStoreConfig) -> anyhow::Result<Self> {
         let store = Store::open(
             config.backend.store,
@@ -26,6 +51,37 @@ impl DirStore<'_> {
         )?;
 
         let depth = config.directory.depth;
+
+        // 1. compare maximum depth with internal data
+        let depth_key = DirStoreMetadataType::Depth.encode_wrapped();
+        match store.get(depth_key.clone()) {
+            Ok(value) => {
+                // decode value
+                let mut stored_depth_bin = [0u8; 8];
+                stored_depth_bin.copy_from_slice(&value[..8]);
+                let stored_depth = u64::from_be_bytes(stored_depth_bin) as usize;
+                if stored_depth != depth {
+                    return Err(InitError::DepthMismatch {
+                        stored: stored_depth,
+                        found: depth,
+                    }
+                    .into());
+                }
+            }
+            Err(kv::errors::Errors::KeyNotFound) => {
+                //
+                match store.put(depth_key, depth.to_be_bytes().to_vec().into()) {
+                    Ok(_) => {}
+                    Err(e) => {
+                        panic!("Failed to manage metadata: {}", e.to_string())
+                    }
+                }
+            }
+            Err(e) => {
+                //
+                panic!("Failed while getting depth size: {}", e.to_string())
+            }
+        }
 
         Ok(Self {
             store,

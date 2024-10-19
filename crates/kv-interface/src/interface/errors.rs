@@ -3,6 +3,12 @@ use thiserror::Error;
 use super::data_structure::{directory::Directory, value::Value};
 
 #[derive(Error, Debug)]
+pub enum InitError {
+    #[error("Depth mismatch: stored {}, found {}", stored, found)]
+    DepthMismatch { stored: usize, found: usize },
+}
+
+#[derive(Error, Debug)]
 pub enum ExecError {
     //
     #[error("Depth exceeded: max depth = {}, given depth = {}", max, given)]

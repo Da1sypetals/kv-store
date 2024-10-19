@@ -1,7 +1,7 @@
 [backend]
 
 [backend.store]
-dir = "store/kv_test"
+dir = "store/kv5"
 sync_every_write = true
 index_type = "Skiplist"
 
