@@ -1,0 +1,37 @@
+[config]
+
+[config.backend]
+
+[config.backend.store]
+dir = "store/kv_test"
+sync_every_write = true
+index_type = "Skiplist"
+
+[config.backend.file]
+max_file_size = 4096
+
+[config.backend.batched]
+max_batch_size = 128
+sync_every_write = true
+
+
+[config.directory]
+depth = 4
+
+[script]
+output_path = "execution.ksis.results"
+commands = """
+
+$
+
+$ls 
+$ls .
+$ls hello.
+$put    hello.world.you.  1
+   $put  hello.me.     me1
+ $put hello.world.you    2
+         $get hello.me
+ $ls hello.
+$ls hello.world.
+
+"""

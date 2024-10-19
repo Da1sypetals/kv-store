@@ -1,0 +1,25 @@
+[package]
+name = "kv-interface"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "repl"
+path = "src/repl.rs"
+
+[[bin]]
+name = "exec"
+path = "src/exec.rs"
+
+[dependencies]
+kv = { path = "../kv" }
+chrono = "0.4.38"
+thiserror = "1.0.64"
+anyhow = "1.0.89"
+rustyline = "14.0.0"
+regex = "1.11.0"
+bytes = "1.7.2"
+num = "0.4.3"
+toml = "0.8.19"
+serde = "1.0.210"
+parking_lot = "0.12.3"
