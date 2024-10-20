@@ -19,7 +19,7 @@ sync_every_write = true
 depth = 4
 
 [script]
-output_path = "aaaa.ksis.results"
+output_path = "results/exec.ksis.results"
 commands = """
 
 $

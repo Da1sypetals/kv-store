@@ -1,16 +1,22 @@
-fn main() {
-    for i in 133..292 {
-        let key = format!("{}", i)
-            .chars()
-            .map(|c| c.to_string())
-            .collect::<Vec<_>>()
-            .join(".");
-        let val = english_numbers::convert_all_fmt(i)
-            .split_whitespace()
-            .collect::<Vec<_>>()
-            .join("-");
+use std::{fs::OpenOptions, io::Write};
 
-        let cmd = format!("$bput bb {}. -s {}", key, val);
-        println!("{}", cmd);
-    }
+use gen::{complex::gen_complex, numbers::gen_numbers};
+
+mod gen;
+
+/// Generate test data.
+fn main() {
+    let mut file = OpenOptions::new()
+        .create(true)
+        .truncate(true)
+        .read(true)
+        .write(true)
+        .open("results/data_generated.txt")
+        .expect("Failed to open file!");
+
+    let data = gen_numbers();
+    let data = gen_complex();
+
+    file.write_all(data.as_bytes())
+        .expect("Failed to write to file!");
 }

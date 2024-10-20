@@ -1,0 +1,177 @@
+[config]
+
+[config.backend]
+
+[config.backend.store]
+dir = "store/kv_bput"
+sync_every_write = true
+index_type = "BTree"
+
+[config.backend.file]
+max_file_size = 4096
+
+[config.backend.batched]
+max_batch_size = 512
+sync_every_write = true
+
+
+[config.directory]
+depth = 4
+
+[script]
+output_path = "results/test.ksis.results"
+commands = """
+
+$bat bb
+$bput bb 1.4.4.3. -z 1443+2372i
+$bput bb 1.4.4.4. -z 1444+2373i
+$bput bb 1.4.4.5. -z 1445+2374i
+$bput bb 1.4.4.6. -z 1446+2375i
+$bput bb 1.4.4.7. -z 1447+2376i
+$bput bb 1.4.4.8. -z 1448+2377i
+$bput bb 1.4.4.9. -z 1449+2378i
+$bput bb 1.4.5.0. -z 1450+2379i
+$bput bb 1.4.5.1. -z 1451+2380i
+$bput bb 1.4.5.2. -z 1452+2381i
+$bput bb 1.4.5.3. -z 1453+2382i
+$bput bb 1.4.5.4. -z 1454+2383i
+$bput bb 1.4.5.5. -z 1455+2384i
+$bput bb 1.4.5.6. -z 1456+2385i
+$bput bb 1.4.5.7. -z 1457+2386i
+$bput bb 1.4.5.8. -z 1458+2387i
+$bput bb 1.4.5.9. -z 1459+2388i
+$bput bb 1.4.6.0. -z 1460+2389i
+$bput bb 1.4.6.1. -z 1461+2390i
+$bput bb 1.4.6.2. -z 1462+2391i
+$bput bb 1.4.6.3. -z 1463+2392i
+$bput bb 1.4.6.4. -z 1464+2393i
+$bput bb 1.4.6.5. -z 1465+2394i
+$bput bb 1.4.6.6. -z 1466+2395i
+$bput bb 1.4.6.7. -z 1467+2396i
+$bput bb 1.4.6.8. -z 1468+2397i
+$bput bb 1.4.6.9. -z 1469+2398i
+$bput bb 1.4.7.0. -z 1470+2399i
+$bput bb 1.4.7.1. -z 1471+2400i
+$bput bb 1.4.7.2. -z 1472+2401i
+$bput bb 1.4.7.3. -z 1473+2402i
+$bput bb 1.4.7.4. -z 1474+2403i
+$bput bb 1.4.7.5. -z 1475+2404i
+$bput bb 1.4.7.6. -z 1476+2405i
+$bput bb 1.4.7.7. -z 1477+2406i
+$bput bb 1.4.7.8. -z 1478+2407i
+$bput bb 1.4.7.9. -z 1479+2408i
+$bput bb 1.4.8.0. -z 1480+2409i
+$bput bb 1.4.8.1. -z 1481+2410i
+$bput bb 1.4.8.2. -z 1482+2411i
+$bput bb 1.4.8.3. -z 1483+2412i
+$bput bb 1.4.8.4. -z 1484+2413i
+$bput bb 1.4.8.5. -z 1485+2414i
+$bput bb 1.4.8.6. -z 1486+2415i
+$bput bb 1.4.8.7. -z 1487+2416i
+$bput bb 1.4.8.8. -z 1488+2417i
+$bput bb 1.4.8.9. -z 1489+2418i
+$bput bb 1.4.9.0. -z 1490+2419i
+$bput bb 1.4.9.1. -z 1491+2420i
+$bput bb 1.4.9.2. -z 1492+2421i
+$bput bb 1.4.9.3. -z 1493+2422i
+$bput bb 1.4.9.4. -z 1494+2423i
+$bput bb 1.4.9.5. -z 1495+2424i
+$bput bb 1.4.9.6. -z 1496+2425i
+$bput bb 1.4.9.7. -z 1497+2426i
+$bput bb 1.4.9.8. -z 1498+2427i
+$bput bb 1.4.9.9. -z 1499+2428i
+$bput bb 1.5.0.0. -z 1500+2429i
+$bput bb 1.5.0.1. -z 1501+2430i
+$bput bb 1.5.0.2. -z 1502+2431i
+$bput bb 1.5.0.3. -z 1503+2432i
+$bput bb 1.5.0.4. -z 1504+2433i
+$bput bb 1.5.0.5. -z 1505+2434i
+$bput bb 1.5.0.6. -z 1506+2435i
+$bput bb 1.5.0.7. -z 1507+2436i
+$bput bb 1.5.0.8. -z 1508+2437i
+$bput bb 1.5.0.9. -z 1509+2438i
+$bput bb 1.5.1.0. -z 1510+2439i
+$bput bb 1.5.1.1. -z 1511+2440i
+$bput bb 1.5.1.2. -z 1512+2441i
+$bput bb 1.5.1.3. -z 1513+2442i
+$bput bb 1.5.1.4. -z 1514+2443i
+$bput bb 1.5.1.5. -z 1515+2444i
+$bput bb 1.5.1.6. -z 1516+2445i
+$bput bb 1.5.1.7. -z 1517+2446i
+$bput bb 1.5.1.8. -z 1518+2447i
+$bput bb 1.5.1.9. -z 1519+2448i
+$bput bb 1.5.2.0. -z 1520+2449i
+$bput bb 1.5.2.1. -z 1521+2450i
+$bput bb 1.5.2.2. -z 1522+2451i
+$bput bb 1.5.2.3. -z 1523+2452i
+$bput bb 1.5.2.4. -z 1524+2453i
+$bput bb 1.5.2.5. -z 1525+2454i
+$bput bb 1.5.2.6. -z 1526+2455i
+$bput bb 1.5.2.7. -z 1527+2456i
+$bput bb 1.5.2.8. -z 1528+2457i
+$bput bb 1.5.2.9. -z 1529+2458i
+$bput bb 1.5.3.0. -z 1530+2459i
+$bput bb 1.5.3.1. -z 1531+2460i
+$bput bb 1.5.3.2. -z 1532+2461i
+$bput bb 1.5.3.3. -z 1533+2462i
+$bput bb 1.5.3.4. -z 1534+2463i
+$bput bb 1.5.3.5. -z 1535+2464i
+$bput bb 1.5.3.6. -z 1536+2465i
+$bput bb 1.5.3.7. -z 1537+2466i
+$bput bb 1.5.3.8. -z 1538+2467i
+$bput bb 1.5.3.9. -z 1539+2468i
+$bput bb 1.5.4.0. -z 1540+2469i
+$bput bb 1.5.4.1. -z 1541+2470i
+$bput bb 1.5.4.2. -z 1542+2471i
+$bput bb 1.5.4.3. -z 1543+2472i
+$bput bb 1.5.4.4. -z 1544+2473i
+$bput bb 1.5.4.5. -z 1545+2474i
+$bput bb 1.5.4.6. -z 1546+2475i
+$bput bb 1.5.4.7. -z 1547+2476i
+$bput bb 1.5.4.8. -z 1548+2477i
+$bput bb 1.5.4.9. -z 1549+2478i
+$bput bb 1.5.5.0. -z 1550+2479i
+$bput bb 1.5.5.1. -z 1551+2480i
+$bput bb 1.5.5.2. -z 1552+2481i
+$bput bb 1.5.5.3. -z 1553+2482i
+$bput bb 1.5.5.4. -z 1554+2483i
+$bput bb 1.5.5.5. -z 1555+2484i
+$bput bb 1.5.5.6. -z 1556+2485i
+$bput bb 1.5.5.7. -z 1557+2486i
+$bput bb 1.5.5.8. -z 1558+2487i
+$bput bb 1.5.5.9. -z 1559+2488i
+$bput bb 1.5.6.0. -z 1560+2489i
+$bput bb 1.5.6.1. -z 1561+2490i
+$bput bb 1.5.6.2. -z 1562+2491i
+$bput bb 1.5.6.3. -z 1563+2492i
+$bput bb 1.5.6.4. -z 1564+2493i
+$bput bb 1.5.6.5. -z 1565+2494i
+$bput bb 1.5.6.6. -z 1566+2495i
+$bput bb 1.5.6.7. -z 1567+2496i
+$bput bb 1.5.6.8. -z 1568+2497i
+$bput bb 1.5.6.9. -z 1569+2498i
+$bput bb 1.5.7.0. -z 1570+2499i
+$bput bb 1.5.7.1. -z 1571+2500i
+$bput bb 1.5.7.2. -z 1572+2501i
+$bput bb 1.5.7.3. -z 1573+2502i
+$bput bb 1.5.7.4. -z 1574+2503i
+$bput bb 1.5.7.5. -z 1575+2504i
+$bput bb 1.5.7.6. -z 1576+2505i
+$bput bb 1.5.7.7. -z 1577+2506i
+$bput bb 1.5.7.8. -z 1578+2507i
+$bput bb 1.5.7.9. -z 1579+2508i
+$bput bb 1.5.8.0. -z 1580+2509i
+$bput bb 1.5.8.1. -z 1581+2510i
+$bput bb 1.5.8.2. -z 1582+2511i
+$bput bb 1.5.8.3. -z 1583+2512i
+$bput bb 1.5.8.4. -z 1584+2513i
+$bput bb 1.5.8.5. -z 1585+2514i
+$bput bb 1.5.8.6. -z 1586+2515i
+$bput bb 1.5.8.7. -z 1587+2516i
+$bput bb 1.5.8.8. -z 1588+2517i
+$bput bb 1.5.8.9. -z 1589+2518i
+$bput bb 1.5.9.0. -z 1590+2519i
+$bput bb 1.5.9.1. -z 1591+2520i
+$cmt bb
+
+"""

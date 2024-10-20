@@ -15,8 +15,8 @@ bash build.sh --all
 
 ## Run
 - Modify configuration files. 
-  - Try to modify `config.toml` to configure REPL;
-  - Try to modify `execution.ksis.toml` to configure command execution.
+  - Try to modify `run/config/config.toml` to configure REPL;
+  - Try to modify `run/scripts/execution.ksis.toml` to configure command execution.
   
 - Run REPL: `./repl <config_path.toml>`
 - Execute a set of commands: `./exec <exec_path.ksis.toml>`
