@@ -41,7 +41,7 @@ $bdel batch_name path.to.your.key.
 $cmt batch_name # commit batch
 
 # merge compacts the inner storage
-$ merge
+$merge
 
 ```
 
