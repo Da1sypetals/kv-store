@@ -314,6 +314,81 @@ $ls 2.9.
 $ls 2.
 $get 2.2.3.
 
+$bat bd
+$bdel bd 2.2.4.
+$bdel bd 2.2.5.
+$bdel bd 2.2.6.
+$bdel bd 2.2.7.
+$bdel bd 2.2.8.
+$bdel bd 2.2.9.
+$bdel bd 2.3.0.
+$bdel bd 2.3.1.
+$bdel bd 2.3.2.
+$bdel bd 2.3.3.
+$bdel bd 2.3.4.
+$bdel bd 2.3.5.
+$bdel bd 2.3.6.
+$bdel bd 2.3.7.
+$bdel bd 2.3.8.
+$bdel bd 2.3.9.
+$bdel bd 2.4.0.
+$bdel bd 2.4.1.
+$bdel bd 2.4.2.
+$bdel bd 2.4.3.
+$bdel bd 2.4.4.
+$bdel bd 2.4.5.
+$bdel bd 2.4.6.
+$bdel bd 2.4.7.
+$bdel bd 2.4.8.
+$bdel bd 2.4.9.
+$bdel bd 2.5.0.
+$bdel bd 2.5.1.
+$bdel bd 2.5.2.
+$bdel bd 2.5.3.
+$bdel bd 2.5.4.
+$bdel bd 2.5.5.
+$bdel bd 2.5.6.
+$bdel bd 2.5.7.
+$bdel bd 2.5.8.
+$bdel bd 2.5.9.
+$bdel bd 2.6.0.
+$bdel bd 2.6.1.
+$bdel bd 2.6.2.
+$bdel bd 2.6.3.
+$bdel bd 2.6.4.
+$bdel bd 2.6.5.
+$bdel bd 2.6.6.
+$bdel bd 2.6.7.
+$bdel bd 2.6.8.
+$bdel bd 2.6.9.
+$bdel bd 2.7.0.
+$bdel bd 2.7.1.
+$bdel bd 2.7.2.
+$bdel bd 2.7.3.
+$bdel bd 2.7.4.
+$bdel bd 2.7.5.
+$bdel bd 2.7.6.
+$bdel bd 2.7.7.
+$bdel bd 2.7.8.
+$bdel bd 2.7.9.
+$bdel bd 2.8.0.
+$bdel bd 2.8.1.
+$bdel bd 2.8.2.
+$bdel bd 2.8.3.
+$bdel bd 2.8.4.
+$bdel bd 2.8.5.
+$bdel bd 2.8.6.
+$bdel bd 2.8.7.
 
+$cmt bd
+
+$ls .
+
+$bdel bb 2.8.8
+$bdel bb 2.8.9
+
+$ls .
+
+$mrg
 
 """
