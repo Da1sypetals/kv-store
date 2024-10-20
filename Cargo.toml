@@ -1,2 +1,9 @@
 [workspace]
-members = ["crates/kv", "crates/kv-interface", "crates/kv-web-service"]
+resolver = "2"
+
+members = [
+    "crates/data-gen",
+    "crates/kv",
+    "crates/kv-interface",
+    "crates/kv-web-service",
+]

@@ -1,0 +1,319 @@
+[config]
+
+[config.backend]
+
+[config.backend.store]
+dir = "store/kv_test"
+sync_every_write = true
+index_type = "BTree"
+
+[config.backend.file]
+max_file_size = 4096
+
+[config.backend.batched]
+max_batch_size = 512
+sync_every_write = true
+
+
+[config.directory]
+depth = 4
+
+[script]
+output_path = "test.ksis.results"
+commands = """
+
+$
+
+# test put
+$put 0. -s Zero
+$put 1. -s One
+$put 2. -s Two
+$put 3. -s Three
+$put 4. -s Four
+$put 5. -s Five
+$put 6. -s Six
+$put 7. -s Seven
+$put 8. -s Eight
+$put 9. -s Nine
+$put 1.0. -s Ten
+$put 1.1. -s Eleven
+$put 1.2. -s Twelve
+$put 1.3. -s Thirteen
+$put 1.4. -s Fourteen
+$put 1.5. -s Fifteen
+$put 1.6. -s Sixteen
+$put 1.7. -s Seventeen
+$put 1.8. -s Eighteen
+$put 1.9. -s Nineteen
+$put 2.0. -s Twenty
+$put 2.1. -s Twenty-One
+$put 2.2. -s Twenty-Two
+$put 2.3. -s Twenty-Three
+$put 2.4. -s Twenty-Four
+$put 2.5. -s Twenty-Five
+$put 2.6. -s Twenty-Six
+$put 2.7. -s Twenty-Seven
+$put 2.8. -s Twenty-Eight
+$put 2.9. -s Twenty-Nine
+$put 3.0. -s Thirty
+$put 3.1. -s Thirty-One
+$put 3.2. -s Thirty-Two
+$put 3.3. -s Thirty-Three
+$put 3.4. -s Thirty-Four
+$put 3.5. -s Thirty-Five
+$put 3.6. -s Thirty-Six
+$put 3.7. -s Thirty-Seven
+$put 3.8. -s Thirty-Eight
+$put 3.9. -s Thirty-Nine
+$put 4.0. -s Forty
+$put 4.1. -s Forty-One
+$put 4.2. -s Forty-Two
+$put 4.3. -s Forty-Three
+$put 4.4. -s Forty-Four
+$put 4.5. -s Forty-Five
+$put 4.6. -s Forty-Six
+$put 4.7. -s Forty-Seven
+$put 4.8. -s Forty-Eight
+$put 4.9. -s Forty-Nine
+$put 5.0. -s Fifty
+$put 5.1. -s Fifty-One
+$put 5.2. -s Fifty-Two
+$put 5.3. -s Fifty-Three
+$put 5.4. -s Fifty-Four
+$put 5.5. -s Fifty-Five
+$put 5.6. -s Fifty-Six
+$put 5.7. -s Fifty-Seven
+$put 5.8. -s Fifty-Eight
+$put 5.9. -s Fifty-Nine
+$put 6.0. -s Sixty
+$put 6.1. -s Sixty-One
+$put 6.2. -s Sixty-Two
+$put 6.3. -s Sixty-Three
+$put 6.4. -s Sixty-Four
+$put 6.5. -s Sixty-Five
+$put 6.6. -s Sixty-Six
+$put 6.7. -s Sixty-Seven
+$put 6.8. -s Sixty-Eight
+$put 6.9. -s Sixty-Nine
+$put 7.0. -s Seventy
+$put 7.1. -s Seventy-One
+$put 7.2. -s Seventy-Two
+$put 7.3. -s Seventy-Three
+$put 7.4. -s Seventy-Four
+$put 7.5. -s Seventy-Five
+$put 7.6. -s Seventy-Six
+$put 7.7. -s Seventy-Seven
+$put 7.8. -s Seventy-Eight
+$put 7.9. -s Seventy-Nine
+$put 8.0. -s Eighty
+$put 8.1. -s Eighty-One
+$put 8.2. -s Eighty-Two
+$put 8.3. -s Eighty-Three
+$put 8.4. -s Eighty-Four
+$put 8.5. -s Eighty-Five
+$put 8.6. -s Eighty-Six
+$put 8.7. -s Eighty-Seven
+$put 8.8. -s Eighty-Eight
+$put 8.9. -s Eighty-Nine
+$put 9.0. -s Ninety
+$put 9.1. -s Ninety-One
+$put 9.2. -s Ninety-Two
+$put 9.3. -s Ninety-Three
+$put 9.4. -s Ninety-Four
+$put 9.5. -s Ninety-Five
+$put 9.6. -s Ninety-Six
+$put 9.7. -s Ninety-Seven
+$put 9.8. -s Ninety-Eight
+$put 9.9. -s Ninety-Nine
+$put 1.0.0. -s One-Hundred
+$put 1.0.1. -s One-Hundred-and-One
+$put 1.0.2. -s One-Hundred-and-Two
+$put 1.0.3. -s One-Hundred-and-Three
+$put 1.0.4. -s One-Hundred-and-Four
+$put 1.0.5. -s One-Hundred-and-Five
+$put 1.0.6. -s One-Hundred-and-Six
+$put 1.0.7. -s One-Hundred-and-Seven
+$put 1.0.8. -s One-Hundred-and-Eight
+$put 1.0.9. -s One-Hundred-and-Nine
+$put 1.1.0. -s One-Hundred-and-Ten
+$put 1.1.1. -s One-Hundred-and-Eleven
+$put 1.1.2. -s One-Hundred-and-Twelve
+
+# test get
+$ls 3.
+$ls 1.0.
+$get 1.1.
+$get 1.0.3.
+$get 1.1.3.
+
+# batched
+$bat bb
+$bput bb 1.3.3. -s One-Hundred-and-Thirty-Three
+$bput bb 1.3.4. -s One-Hundred-and-Thirty-Four
+$bput bb 1.3.5. -s One-Hundred-and-Thirty-Five
+$bput bb 1.3.6. -s One-Hundred-and-Thirty-Six
+$bput bb 1.3.7. -s One-Hundred-and-Thirty-Seven
+$bput bb 1.3.8. -s One-Hundred-and-Thirty-Eight
+$bput bb 1.3.9. -s One-Hundred-and-Thirty-Nine
+$bput bb 1.4.0. -s One-Hundred-and-Forty
+$bput bb 1.4.1. -s One-Hundred-and-Forty-One
+$bput bb 1.4.2. -s One-Hundred-and-Forty-Two
+$bput bb 1.4.3. -s One-Hundred-and-Forty-Three
+$bput bb 1.4.4. -s One-Hundred-and-Forty-Four
+$bput bb 1.4.5. -s One-Hundred-and-Forty-Five
+$bput bb 1.4.6. -s One-Hundred-and-Forty-Six
+$bput bb 1.4.7. -s One-Hundred-and-Forty-Seven
+$bput bb 1.4.8. -s One-Hundred-and-Forty-Eight
+$bput bb 1.4.9. -s One-Hundred-and-Forty-Nine
+$bput bb 1.5.0. -s One-Hundred-and-Fifty
+$bput bb 1.5.1. -s One-Hundred-and-Fifty-One
+$bput bb 1.5.2. -s One-Hundred-and-Fifty-Two
+$bput bb 1.5.3. -s One-Hundred-and-Fifty-Three
+$bput bb 1.5.4. -s One-Hundred-and-Fifty-Four
+$bput bb 1.5.5. -s One-Hundred-and-Fifty-Five
+$bput bb 1.5.6. -s One-Hundred-and-Fifty-Six
+$bput bb 1.5.7. -s One-Hundred-and-Fifty-Seven
+$bput bb 1.5.8. -s One-Hundred-and-Fifty-Eight
+$bput bb 1.5.9. -s One-Hundred-and-Fifty-Nine
+$bput bb 1.6.0. -s One-Hundred-and-Sixty
+$bput bb 1.6.1. -s One-Hundred-and-Sixty-One
+$bput bb 1.6.2. -s One-Hundred-and-Sixty-Two
+$bput bb 1.6.3. -s One-Hundred-and-Sixty-Three
+$bput bb 1.6.4. -s One-Hundred-and-Sixty-Four
+$bput bb 1.6.5. -s One-Hundred-and-Sixty-Five
+$bput bb 1.6.6. -s One-Hundred-and-Sixty-Six
+$bput bb 1.6.7. -s One-Hundred-and-Sixty-Seven
+$bput bb 1.6.8. -s One-Hundred-and-Sixty-Eight
+$bput bb 1.6.9. -s One-Hundred-and-Sixty-Nine
+$bput bb 1.7.0. -s One-Hundred-and-Seventy
+$bput bb 1.7.1. -s One-Hundred-and-Seventy-One
+$bput bb 1.7.2. -s One-Hundred-and-Seventy-Two
+$bput bb 1.7.3. -s One-Hundred-and-Seventy-Three
+$bput bb 1.7.4. -s One-Hundred-and-Seventy-Four
+$bput bb 1.7.5. -s One-Hundred-and-Seventy-Five
+$bput bb 1.7.6. -s One-Hundred-and-Seventy-Six
+$bput bb 1.7.7. -s One-Hundred-and-Seventy-Seven
+$bput bb 1.7.8. -s One-Hundred-and-Seventy-Eight
+$bput bb 1.7.9. -s One-Hundred-and-Seventy-Nine
+$bput bb 1.8.0. -s One-Hundred-and-Eighty
+$bput bb 1.8.1. -s One-Hundred-and-Eighty-One
+$bput bb 1.8.2. -s One-Hundred-and-Eighty-Two
+$bput bb 1.8.3. -s One-Hundred-and-Eighty-Three
+$bput bb 1.8.4. -s One-Hundred-and-Eighty-Four
+$bput bb 1.8.5. -s One-Hundred-and-Eighty-Five
+$bput bb 1.8.6. -s One-Hundred-and-Eighty-Six
+$bput bb 1.8.7. -s One-Hundred-and-Eighty-Seven
+$bput bb 1.8.8. -s One-Hundred-and-Eighty-Eight
+$bput bb 1.8.9. -s One-Hundred-and-Eighty-Nine
+$bput bb 1.9.0. -s One-Hundred-and-Ninety
+$bput bb 1.9.1. -s One-Hundred-and-Ninety-One
+$bput bb 1.9.2. -s One-Hundred-and-Ninety-Two
+$bput bb 1.9.3. -s One-Hundred-and-Ninety-Three
+$bput bb 1.9.4. -s One-Hundred-and-Ninety-Four
+$bput bb 1.9.5. -s One-Hundred-and-Ninety-Five
+$bput bb 1.9.6. -s One-Hundred-and-Ninety-Six
+$bput bb 1.9.7. -s One-Hundred-and-Ninety-Seven
+$bput bb 1.9.8. -s One-Hundred-and-Ninety-Eight
+$bput bb 1.9.9. -s One-Hundred-and-Ninety-Nine
+$bput bb 2.0.0. -s Two-Hundred
+$bput bb 2.0.1. -s Two-Hundred-and-One
+$bput bb 2.0.2. -s Two-Hundred-and-Two
+$bput bb 2.0.3. -s Two-Hundred-and-Three
+$bput bb 2.0.4. -s Two-Hundred-and-Four
+$bput bb 2.0.5. -s Two-Hundred-and-Five
+$bput bb 2.0.6. -s Two-Hundred-and-Six
+$bput bb 2.0.7. -s Two-Hundred-and-Seven
+$bput bb 2.0.8. -s Two-Hundred-and-Eight
+$bput bb 2.0.9. -s Two-Hundred-and-Nine
+$bput bb 2.1.0. -s Two-Hundred-and-Ten
+$bput bb 2.1.1. -s Two-Hundred-and-Eleven
+$bput bb 2.1.2. -s Two-Hundred-and-Twelve
+$bput bb 2.1.3. -s Two-Hundred-and-Thirteen
+$bput bb 2.1.4. -s Two-Hundred-and-Fourteen
+$bput bb 2.1.5. -s Two-Hundred-and-Fifteen
+$bput bb 2.1.6. -s Two-Hundred-and-Sixteen
+$bput bb 2.1.7. -s Two-Hundred-and-Seventeen
+$bput bb 2.1.8. -s Two-Hundred-and-Eighteen
+$bput bb 2.1.9. -s Two-Hundred-and-Nineteen
+$bput bb 2.2.0. -s Two-Hundred-and-Twenty
+$bput bb 2.2.1. -s Two-Hundred-and-Twenty-One
+$bput bb 2.2.2. -s Two-Hundred-and-Twenty-Two
+$bput bb 2.2.3. -s Two-Hundred-and-Twenty-Three
+$bput bb 2.2.4. -s Two-Hundred-and-Twenty-Four
+$bput bb 2.2.5. -s Two-Hundred-and-Twenty-Five
+$bput bb 2.2.6. -s Two-Hundred-and-Twenty-Six
+$bput bb 2.2.7. -s Two-Hundred-and-Twenty-Seven
+$bput bb 2.2.8. -s Two-Hundred-and-Twenty-Eight
+$bput bb 2.2.9. -s Two-Hundred-and-Twenty-Nine
+$bput bb 2.3.0. -s Two-Hundred-and-Thirty
+$bput bb 2.3.1. -s Two-Hundred-and-Thirty-One
+$bput bb 2.3.2. -s Two-Hundred-and-Thirty-Two
+$bput bb 2.3.3. -s Two-Hundred-and-Thirty-Three
+$bput bb 2.3.4. -s Two-Hundred-and-Thirty-Four
+$bput bb 2.3.5. -s Two-Hundred-and-Thirty-Five
+$bput bb 2.3.6. -s Two-Hundred-and-Thirty-Six
+$bput bb 2.3.7. -s Two-Hundred-and-Thirty-Seven
+$bput bb 2.3.8. -s Two-Hundred-and-Thirty-Eight
+$bput bb 2.3.9. -s Two-Hundred-and-Thirty-Nine
+$bput bb 2.4.0. -s Two-Hundred-and-Forty
+$bput bb 2.4.1. -s Two-Hundred-and-Forty-One
+$bput bb 2.4.2. -s Two-Hundred-and-Forty-Two
+$bput bb 2.4.3. -s Two-Hundred-and-Forty-Three
+$bput bb 2.4.4. -s Two-Hundred-and-Forty-Four
+$bput bb 2.4.5. -s Two-Hundred-and-Forty-Five
+$bput bb 2.4.6. -s Two-Hundred-and-Forty-Six
+$bput bb 2.4.7. -s Two-Hundred-and-Forty-Seven
+$bput bb 2.4.8. -s Two-Hundred-and-Forty-Eight
+$bput bb 2.4.9. -s Two-Hundred-and-Forty-Nine
+$bput bb 2.5.0. -s Two-Hundred-and-Fifty
+$bput bb 2.5.1. -s Two-Hundred-and-Fifty-One
+$bput bb 2.5.2. -s Two-Hundred-and-Fifty-Two
+$bput bb 2.5.3. -s Two-Hundred-and-Fifty-Three
+$bput bb 2.5.4. -s Two-Hundred-and-Fifty-Four
+$bput bb 2.5.5. -s Two-Hundred-and-Fifty-Five
+$bput bb 2.5.6. -s Two-Hundred-and-Fifty-Six
+$bput bb 2.5.7. -s Two-Hundred-and-Fifty-Seven
+$bput bb 2.5.8. -s Two-Hundred-and-Fifty-Eight
+$bput bb 2.5.9. -s Two-Hundred-and-Fifty-Nine
+$bput bb 2.6.0. -s Two-Hundred-and-Sixty
+$bput bb 2.6.1. -s Two-Hundred-and-Sixty-One
+$bput bb 2.6.2. -s Two-Hundred-and-Sixty-Two
+$bput bb 2.6.3. -s Two-Hundred-and-Sixty-Three
+$bput bb 2.6.4. -s Two-Hundred-and-Sixty-Four
+$bput bb 2.6.5. -s Two-Hundred-and-Sixty-Five
+$bput bb 2.6.6. -s Two-Hundred-and-Sixty-Six
+$bput bb 2.6.7. -s Two-Hundred-and-Sixty-Seven
+$bput bb 2.6.8. -s Two-Hundred-and-Sixty-Eight
+$bput bb 2.6.9. -s Two-Hundred-and-Sixty-Nine
+$bput bb 2.7.0. -s Two-Hundred-and-Seventy
+$bput bb 2.7.1. -s Two-Hundred-and-Seventy-One
+$bput bb 2.7.2. -s Two-Hundred-and-Seventy-Two
+$bput bb 2.7.3. -s Two-Hundred-and-Seventy-Three
+$bput bb 2.7.4. -s Two-Hundred-and-Seventy-Four
+$bput bb 2.7.5. -s Two-Hundred-and-Seventy-Five
+$bput bb 2.7.6. -s Two-Hundred-and-Seventy-Six
+$bput bb 2.7.7. -s Two-Hundred-and-Seventy-Seven
+$bput bb 2.7.8. -s Two-Hundred-and-Seventy-Eight
+$bput bb 2.7.9. -s Two-Hundred-and-Seventy-Nine
+$bput bb 2.8.0. -s Two-Hundred-and-Eighty
+$bput bb 2.8.1. -s Two-Hundred-and-Eighty-One
+$bput bb 2.8.2. -s Two-Hundred-and-Eighty-Two
+$bput bb 2.8.3. -s Two-Hundred-and-Eighty-Three
+$bput bb 2.8.4. -s Two-Hundred-and-Eighty-Four
+$bput bb 2.8.5. -s Two-Hundred-and-Eighty-Five
+$bput bb 2.8.6. -s Two-Hundred-and-Eighty-Six
+$bput bb 2.8.7. -s Two-Hundred-and-Eighty-Seven
+$bput bb 2.8.8. -s Two-Hundred-and-Eighty-Eight
+$bput bb 2.8.9. -s Two-Hundred-and-Eighty-Nine
+$bput bb 2.9.0. -s Two-Hundred-and-Ninety
+$bput bb 2.9.1. -s Two-Hundred-and-Ninety-One
+$cmt bb
+
+$ls 2.9
+$ls 2.9.
+$ls 2.
+$get 2.2.3.
+
+
+
+"""

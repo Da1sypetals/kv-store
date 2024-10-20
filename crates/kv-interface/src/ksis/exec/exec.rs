@@ -1,4 +1,7 @@
-use crate::{interface::{config::DirStoreConfig, dirstore::DirStore}, ksis::parse::commands::Command};
+use crate::{
+    interface::{config::DirStoreConfig, dirstore::DirStore},
+    ksis::parse::commands::Command,
+};
 use serde::{Deserialize, Serialize};
 use std::{
     fs::{self, File},
@@ -43,6 +46,15 @@ impl Execution {
             .script
             .commands
             .lines()
+            .filter_map(|line| {
+                let line = line.trim();
+                // filter away empty lines and comments
+                if line.is_empty() || line.starts_with("#") {
+                    None
+                } else {
+                    Some(line)
+                }
+            })
             .map(|line| {
                 match Command::try_parse(line.into()) {
                     Ok(cmd) => {
