@@ -20,8 +20,14 @@ pub enum ParseError {
     #[error("Invalid directory: {}", src)]
     InvalidDirectory { src: String },
 
-    #[error("Invalid syntax: {}", cmd)]
+    #[error("Unsupported command: {}", cmd)]
     UnsupportedCommand { cmd: String },
+
+    #[error("Unsupported value type: expected (s, i, r, z), found {}", value_type)]
+    UnsupportedValueType { value_type: String },
+
+    #[error("Invalid value for type [{}]: {}", value_type, value)]
+    InvalidValue { value_type: String, value: String },
 }
 
 pub type ParseResult<T> = Result<T, ParseError>;

@@ -40,6 +40,7 @@ pub enum Command {
     BatchCommit {
         batchname: String,
     },
+    Merge,
 }
 
 impl Command {
@@ -96,6 +97,10 @@ impl Command {
             "bat" | "batch" => {
                 //
                 Self::try_parse_make_batch(args)
+            }
+            "mrg" | "merge" => {
+                //
+                Self::try_parse_merge(args)
             }
             _ => {
                 //
@@ -156,6 +161,11 @@ impl Command {
         Ok(Command::MakeBatch { batchname })
     }
 
+    fn try_parse_merge(args: &[String]) -> ParseResult<Command> {
+        enforce_vec_len(args, 0)?;
+        Ok(Command::Merge)
+    }
+
     // `$get hello.world.baby.`
     fn try_parse_batched_del(args: &[String]) -> ParseResult<Command> {
         enforce_vec_len(args, 2)?;
@@ -171,16 +181,19 @@ impl Command {
         })
     }
 
-    // `$get hello.world.baby.`
+    /// s: string
+    /// i: int
+    /// r: real
+    /// z: complex
     fn try_parse_put(args: &[String]) -> ParseResult<Command> {
-        enforce_vec_len(args, 2)?;
+        enforce_vec_len(args, 3)?;
         let dir = Self::try_parse_dir(&args[0])?;
-        let value = args[1].clone();
+        let type_char = args[1].clone();
+        let val_str = args[2].clone();
 
-        Ok(Command::Put {
-            key: dir,
-            value: Value::Str(value),
-        })
+        let value = Value::parse(type_char, val_str)?;
+
+        Ok(Command::Put { key: dir, value })
     }
 
     // `$get hello.world.baby.`
@@ -191,11 +204,15 @@ impl Command {
         enforce_batch_identifier(&batchname)?;
 
         let dir = Self::try_parse_dir(&args[1])?;
-        let value = args[2].clone();
+
+        let type_char = args[1].clone();
+        let val_str = args[2].clone();
+
+        let value = Value::parse(type_char, val_str)?;
 
         Ok(Command::BatchedPut {
             key: dir,
-            value: Value::Str(value),
+            value,
             batchname,
         })
     }

@@ -131,6 +131,16 @@ impl<'a> DirStore<'a> {
                 //
                 self.batch_commit(batchname)
             }
+            Command::Merge => {
+                //
+                self.store.merge().map_err(|e| ExecError::Internal {
+                    emsg: format!("Error while merging: {}", e.to_string()),
+                })?;
+
+                Ok(ExecOutput::Info(
+                    "Merge ok, will clean up on next reboot.".into(),
+                ))
+            }
         }
     }
 }

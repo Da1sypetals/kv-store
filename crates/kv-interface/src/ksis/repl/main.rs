@@ -1,4 +1,4 @@
-use crate::interface::config::DirStoreConfig;
+use crate::interface::config::{start_dir_store, DirStoreConfig};
 use crate::interface::dirstore::DirStore;
 use crate::ksis::parse::commands::Command;
 use rustyline::error::ReadlineError;
@@ -9,21 +9,23 @@ pub fn repl_main(config_path: &str) -> Result<()> {
     let mut rl = DefaultEditor::new()?;
 
     // init kv store
-    let config = DirStoreConfig::from_toml(config_path.into());
-    let config = match config {
-        Ok(config) => config,
-        Err(e) => {
-            eprintln!("Failed to start kv store: {}", e.to_string());
-            std::process::exit(0);
-        }
-    };
-    let ds = match DirStore::open(config) {
-        Ok(ds) => ds,
-        Err(e) => {
-            eprintln!("Directory storage initialization failed: {}", e.to_string());
-            std::process::exit(1);
-        }
-    };
+    // let config = DirStoreConfig::from_toml(config_path.into());
+    // let config = match config {
+    //     Ok(config) => config,
+    //     Err(e) => {
+    //         eprintln!("Failed to start kv store: {}", e.to_string());
+    //         std::process::exit(0);
+    //     }
+    // };
+    // let ds = match DirStore::open(config) {
+    //     Ok(ds) => ds,
+    //     Err(e) => {
+    //         eprintln!("Directory storage initialization failed: {}", e.to_string());
+    //         std::process::exit(1);
+    //     }
+    // };
+
+    let ds = start_dir_store(config_path);
 
     loop {
         let readline = rl.readline("kv > ");

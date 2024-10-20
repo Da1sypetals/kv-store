@@ -1,6 +1,8 @@
 use bytes::Bytes;
 use num::complex::Complex64;
 
+use crate::ksis::parse::errors::{ParseError, ParseResult};
+
 pub type Complex = Complex64;
 
 #[derive(Debug)]
@@ -94,6 +96,51 @@ impl Value {
             }
             x => {
                 panic!("Internal irrecoverable error: invalid value type: {x}")
+            }
+        }
+    }
+
+    pub(crate) fn parse(type_char: String, val_str: String) -> ParseResult<Self> {
+        if type_char.chars().nth(0) != Some('-') {
+            return Err(ParseError::InvalidSyntax {
+                msg: "Specify a type by `-<Type>` or its abbreviation `-<t>`.".into(),
+            });
+        }
+        let value_type = &type_char[1..];
+        match value_type {
+            "s" | "Str" => {
+                //
+                Ok(Self::Str(val_str))
+            }
+            "i" | "Int" => {
+                //
+                let value: i64 = val_str.parse().map_err(|_| ParseError::InvalidValue {
+                    value_type: value_type.into(),
+                    value: val_str,
+                })?;
+                Ok(Self::Int(value))
+            }
+            "r" | "Real" => {
+                //
+                let value: f64 = val_str.parse().map_err(|_| ParseError::InvalidValue {
+                    value_type: value_type.into(),
+                    value: val_str,
+                })?;
+                Ok(Self::Real(value))
+            }
+            "z" | "Complex" => {
+                //
+                let value: Complex = val_str.parse().map_err(|_| ParseError::InvalidValue {
+                    value_type: value_type.into(),
+                    value: val_str,
+                })?;
+                Ok(Self::Complex(value))
+            }
+            value_type => {
+                //
+                Err(ParseError::UnsupportedValueType {
+                    value_type: value_type.into(),
+                })
             }
         }
     }

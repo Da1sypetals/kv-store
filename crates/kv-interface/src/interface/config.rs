@@ -3,6 +3,8 @@ use std::{fs, path::PathBuf};
 use kv::config::config::{BatchedConfig, Config, FileConfig, StoreConfig};
 use serde::{Deserialize, Serialize};
 
+use super::dirstore::DirStore;
+
 #[derive(Serialize, Deserialize)]
 pub struct DirectoryConfig {
     pub(crate) depth: usize,
@@ -21,4 +23,25 @@ impl DirStoreConfig {
 
         Ok(config)
     }
+}
+
+pub fn start_dir_store(config_path: &str) -> DirStore<'_> {
+    let config = DirStoreConfig::from_toml(config_path.into());
+    let config = match config {
+        Ok(config) => config,
+        Err(e) => {
+            eprintln!("Failed to start kv store: {}", e.to_string());
+            std::process::exit(0);
+        }
+    };
+
+    let ds = match DirStore::open(config) {
+        Ok(ds) => ds,
+        Err(e) => {
+            eprintln!("Directory storage initialization failed: {}", e.to_string());
+            std::process::exit(1);
+        }
+    };
+
+    ds
 }
