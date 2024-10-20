@@ -1,0 +1,11 @@
+[store]
+dir = "store/kv_test"
+sync_every_write = true
+index_type = "Skiplist"
+
+[file]
+max_file_size = 4096
+
+[batched]
+max_batch_size = 128
+sync_every_write = true

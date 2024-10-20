@@ -1,2 +1,2 @@
 [workspace]
-members = ["crates/kv", "crates/kv-interface"]
+members = ["crates/kv", "crates/kv-interface", "crates/kv-web-service"]

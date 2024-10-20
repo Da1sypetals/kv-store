@@ -14,6 +14,7 @@
 /store_backup
 /exec
 /repl
+*.ksis.results
 
 ## File system
 .DS_Store

@@ -188,27 +188,27 @@ impl Command {
     fn try_parse_put(args: &[String]) -> ParseResult<Command> {
         enforce_vec_len(args, 3)?;
         let dir = Self::try_parse_dir(&args[0])?;
-        let type_char = args[1].clone();
+        let value_type = args[1].clone();
         let val_str = args[2].clone();
 
-        let value = Value::parse(type_char, val_str)?;
+        let value = Value::parse(value_type, val_str)?;
 
         Ok(Command::Put { key: dir, value })
     }
 
     // `$get hello.world.baby.`
     fn try_parse_batched_put(args: &[String]) -> ParseResult<Command> {
-        enforce_vec_len(args, 3)?;
+        enforce_vec_len(args, 4)?;
 
         let batchname = args[0].clone();
         enforce_batch_identifier(&batchname)?;
 
         let dir = Self::try_parse_dir(&args[1])?;
 
-        let type_char = args[1].clone();
-        let val_str = args[2].clone();
+        let value_type = args[2].clone();
+        let val_str = args[3].clone();
 
-        let value = Value::parse(type_char, val_str)?;
+        let value = Value::parse(value_type, val_str)?;
 
         Ok(Command::BatchedPut {
             key: dir,

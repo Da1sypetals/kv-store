@@ -25,7 +25,7 @@ impl DirStoreConfig {
     }
 }
 
-pub fn start_dir_store(config_path: &str) -> DirStore<'_> {
+pub fn start_dir_store(config_path: &str) -> DirStore {
     let config = DirStoreConfig::from_toml(config_path.into());
     let config = match config {
         Ok(config) => config,

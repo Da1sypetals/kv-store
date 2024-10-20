@@ -46,11 +46,12 @@ fn copy_dir_contents<P: AsRef<Path>, Q: AsRef<Path>>(from: P, to: Q) -> std::io:
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    use std::{fs, sync::Arc};
 
     use bytes::Bytes;
 
     use crate::{
+        batched::batched_write::CreateBatch,
         config::config::Config,
         store::{store::Store, utils::TempStore},
     };
@@ -61,6 +62,7 @@ mod tests {
         let backup_name = "store/store_backup";
         {
             let (_raii, store) = TempStore::init(test_id);
+            let store = Arc::new(store);
 
             let batch1 = store.new_batched();
             for i in [0, 1, 2] {

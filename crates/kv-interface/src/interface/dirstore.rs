@@ -1,7 +1,11 @@
 use std::{collections::HashMap, hash::Hash, sync::Arc};
 
 use bytes::Bytes;
-use kv::{batched::batched_write::BatchedWrite, definitions::types::KvBytes, store::store::Store};
+use kv::{
+    batched::batched_write::{BatchedWrite, CreateBatch},
+    definitions::types::KvBytes,
+    store::store::Store,
+};
 use parking_lot::Mutex;
 use serde::de;
 use thiserror::Error;
@@ -14,10 +18,10 @@ use super::{
     errors::{ExecError, ExecOutput, ExecResult, ExecReturn, InitError},
 };
 
-pub struct DirStore<'a> {
-    pub(crate) store: Store,
+pub struct DirStore {
+    pub(crate) store: Arc<Store>,
     pub(crate) depth: usize,
-    pub(crate) batches: Arc<Mutex<HashMap<String, BatchedWrite<'a>>>>,
+    pub(crate) batches: Arc<Mutex<HashMap<String, BatchedWrite>>>,
 }
 
 pub enum DirStoreMetadataType {
@@ -40,7 +44,7 @@ impl From<DirStoreMetadataType> for u8 {
     }
 }
 
-impl DirStore<'_> {
+impl DirStore {
     /// Possible errors:
     ///     - depth mismatch error
     pub fn open(config: DirStoreConfig) -> anyhow::Result<Self> {
@@ -84,16 +88,16 @@ impl DirStore<'_> {
         }
 
         Ok(Self {
-            store,
+            store: Arc::new(store),
             depth,
             batches: Arc::new(Mutex::new(HashMap::new())),
         })
     }
 }
 
-impl<'a> DirStore<'a> {
+impl DirStore {
     // command -> output, error
-    pub fn exec_command(&'a self, cmd: Command) -> ExecReturn {
+    pub fn exec_command(&self, cmd: Command) -> ExecReturn {
         match cmd {
             Command::Get { key } => {
                 self.validate_depth(&key)?;
@@ -145,7 +149,7 @@ impl<'a> DirStore<'a> {
     }
 }
 
-impl DirStore<'_> {
+impl DirStore {
     fn validate_depth(&self, key: &Directory) -> ExecResult<()> {
         if key.level() > self.depth {
             Err(ExecError::DepthExceeded {
@@ -158,7 +162,7 @@ impl DirStore<'_> {
     }
 }
 
-impl<'a> DirStore<'a> {
+impl DirStore {
     pub fn get(&self, key: Directory) -> ExecReturn {
         let bin_key = key.encode_wrapped();
         match self.store.get(bin_key) {
@@ -233,14 +237,14 @@ impl<'a> DirStore<'a> {
         Ok(ExecOutput::List(list))
     }
 
-    pub fn make_batch(&'a self, batchname: String) -> ExecReturn {
+    pub fn make_batch(&self, batchname: String) -> ExecReturn {
         self.batches
             .lock()
             .insert(batchname, self.store.new_batched());
         Ok(ExecOutput::ok())
     }
 
-    pub fn batched_put(&'a self, batchname: String, key: Directory, value: Value) -> ExecReturn {
+    pub fn batched_put(&self, batchname: String, key: Directory, value: Value) -> ExecReturn {
         self.try_find_batch(&batchname)?;
 
         let batches = self.batches.lock();
@@ -258,7 +262,7 @@ impl<'a> DirStore<'a> {
             })
     }
 
-    pub fn batched_delete(&'a self, batchname: String, key: Directory) -> ExecReturn {
+    pub fn batched_delete(&self, batchname: String, key: Directory) -> ExecReturn {
         self.try_find_batch(&batchname)?;
 
         let batches = self.batches.lock();
@@ -275,7 +279,7 @@ impl<'a> DirStore<'a> {
             })
     }
 
-    pub fn batch_commit(&'a self, batchname: String) -> ExecReturn {
+    pub fn batch_commit(&self, batchname: String) -> ExecReturn {
         self.try_find_batch(&batchname)?;
 
         let mut batches = self.batches.lock();
@@ -296,7 +300,7 @@ impl<'a> DirStore<'a> {
     }
 }
 
-impl DirStore<'_> {
+impl DirStore {
     fn try_find_batch(&self, batch: &str) -> ExecResult<()> {
         if self.batches.lock().contains_key(batch) {
             Ok(())

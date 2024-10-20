@@ -11,32 +11,29 @@ use std::{collections::HashMap, sync::Arc};
 
 use super::{batched_index::BatchedIndex, log_record::BatchedLogRecord};
 
-pub struct BatchedWrite<'a> {
+pub struct BatchedWrite {
     /// Maps `key` to the **last** **meaningful** write operation related to itself,
     ///     omitting intermediate operations.
     pending: Arc<Mutex<HashMap<ByteVec, BatchedLogRecord>>>,
-    store: &'a Store,
+    store: Arc<Store>,
     config: BatchedConfig,
 }
 
-impl Store {
-    pub fn new_batched(&self) -> BatchedWrite<'_> {
+pub trait CreateBatch {
+    fn new_batched(&self) -> BatchedWrite;
+}
+
+impl CreateBatch for Arc<Store> {
+    fn new_batched(&self) -> BatchedWrite {
         BatchedWrite {
             pending: Arc::new(Mutex::new(HashMap::new())),
-            store: self,
+            store: Arc::clone(self),
             config: self.batched_config,
-        }
-    }
-
-    pub fn new_batched_index(&self) -> BatchedIndex<'_> {
-        BatchedIndex {
-            ptr: HashMap::new(),
-            store: self,
         }
     }
 }
 
-impl BatchedWrite<'_> {
+impl BatchedWrite {
     pub fn put(&self, key: Bytes, value: Bytes) -> Result<()> {
         if key.is_empty() {
             return Err(Errors::KeyIsEmpty);

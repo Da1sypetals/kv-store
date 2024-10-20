@@ -245,9 +245,9 @@ impl Store {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    use std::{fs, sync::Arc};
 
-    use crate::{config::config::Config, store::store::Store};
+    use crate::{batched::batched_write::CreateBatch, config::config::Config, store::store::Store};
 
     #[test]
     fn test_merge() {
@@ -285,6 +285,7 @@ mod tests {
                 Config::from_toml("config.toml".into());
             store_config.dir = dir.clone().into();
             let store = Store::open(store_config, file_config, batched_config).unwrap();
+            let store = Arc::new(store);
 
             // dbg!(store.active_file.read().get_write_offset());
             // dbg!(store

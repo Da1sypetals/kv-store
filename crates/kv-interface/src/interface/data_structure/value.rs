@@ -100,13 +100,13 @@ impl Value {
         }
     }
 
-    pub(crate) fn parse(type_char: String, val_str: String) -> ParseResult<Self> {
-        if type_char.chars().nth(0) != Some('-') {
+    pub(crate) fn parse(value_type: String, val_str: String) -> ParseResult<Self> {
+        if value_type.chars().nth(0) != Some('-') {
             return Err(ParseError::InvalidSyntax {
                 msg: "Specify a type by `-<Type>` or its abbreviation `-<t>`.".into(),
             });
         }
-        let value_type = &type_char[1..];
+        let value_type = &value_type[1..];
         match value_type {
             "s" | "Str" => {
                 //

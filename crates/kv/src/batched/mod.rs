@@ -4,11 +4,12 @@ pub mod log_record;
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    use std::{fs, sync::Arc};
 
     use bytes::Bytes;
 
     use crate::{
+        batched::batched_write::CreateBatch,
         config::config::Config,
         store::{store::Store, utils::TempStore},
     };
@@ -16,6 +17,7 @@ mod tests {
     #[test]
     fn test_batched() {
         let (_raii, store) = TempStore::init(0);
+        let store = Arc::new(store);
 
         let batch1 = store.new_batched();
         for i in [0, 1, 2] {
@@ -80,6 +82,7 @@ mod tests {
                 Config::from_toml("config.toml".into());
             store_config.dir = dir.clone().into();
             let store = Store::open(store_config, file_config, batched_config).unwrap();
+            let store = Arc::new(store);
 
             let batch1 = store.new_batched();
             let batch2 = store.new_batched();
@@ -111,6 +114,7 @@ mod tests {
                 Config::from_toml("config.toml".into());
             store_config.dir = dir.clone().into();
             let store = Store::open(store_config, file_config, batched_config).unwrap();
+            let store = Arc::new(store);
 
             assert_eq!(
                 store.get("123".into()).unwrap(),
@@ -148,6 +152,7 @@ mod tests {
     #[test]
     fn test_batched_overwrite() {
         let (_raii, store) = TempStore::init(2);
+        let store = Arc::new(store);
 
         let batch = store.new_batched();
         for i in [0, 1, 2] {
@@ -189,12 +194,14 @@ mod tests {
 /// This shall be run on specific order with specific commands
 mod test_truncations {
 
-    use std::fs;
+    use std::{fs, sync::Arc};
 
     use crate::{
         config::config::Config,
         store::{store::Store, utils::TempStore},
     };
+
+    use super::batched_write::CreateBatch;
 
     #[test]
     // First, interrupt while running this.
@@ -213,6 +220,7 @@ mod test_truncations {
 
         store_config.dir = dir.clone().into();
         let store = Store::open(store_config, file_config, batched_config).unwrap();
+        let store = Arc::new(store);
 
         let batch = store.new_batched();
 
@@ -242,6 +250,7 @@ mod test_truncations {
 
         store_config.dir = dir.clone().into();
         let store = Store::open(store_config, file_config, batched_config).unwrap();
+        let store = Arc::new(store);
 
         store.put("hello".into(), "world".into()).unwrap();
         store.put("goodbye".into(), "world".into()).unwrap();

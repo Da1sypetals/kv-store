@@ -1,6 +1,6 @@
 use super::file_handle::FileHandle;
 use crate::{
-    batched::batched_index::BatchedIndex,
+    batched::{batched_index::BatchedIndex, batched_write::CreateBatch},
     config::config::{BatchedConfig, FileConfig, StoreConfig},
     definitions::{
         constants::{get_max_prefix_number, MERGE_OK_FILE_NAME, MERGE_STORE_PATH},
@@ -392,7 +392,7 @@ impl Store {
         // for use of the store's batch id
         let mut newest_batch_id = 0;
         let mut batch_id: Option<usize> = None;
-        let mut batched_index = self.new_batched_index();
+        let mut batched_index = BatchedIndex::new();
         // let mut batched_write = self.new_batched(self.batched_config);
 
         // build on legacy files
@@ -419,7 +419,7 @@ impl Store {
 
         // build on active file
         let active_file = self.active_file.write();
-        let offset = self.update_index_on_file(
+        let _offset = self.update_index_on_file(
             &active_file,
             active_file_id,
             &mut batch_id,
@@ -507,7 +507,8 @@ impl Store {
     }
 
      */
-
+}
+impl Store {
     fn fetch_files(
         dir: PathBuf,
         active_file_id: u32,
@@ -583,7 +584,7 @@ impl Store {
         file_id: u32,
         cur_batch_id: &mut Option<usize>,
         newest_batch_id: &mut usize, // this tracks the store's batch id
-        batched_index: &mut BatchedIndex<'_>, // this maintains the ongoing batch
+        batched_index: &mut BatchedIndex, // this maintains the ongoing batch
     ) -> Result<u64> {
         let mut offset = 0;
         loop {
@@ -678,7 +679,7 @@ impl Store {
                         // the same batch
                         if batch_id == *cur_bid {
                             // end this batch, commit changes
-                            batched_index.commit();
+                            batched_index.commit(&self);
                         }
                         // else: got another batch
                     }

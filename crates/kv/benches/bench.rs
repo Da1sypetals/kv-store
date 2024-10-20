@@ -1,5 +1,7 @@
+use std::sync::Arc;
+
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use kv::store::utils::TempStore;
+use kv::{batched::batched_write::CreateBatch, store::utils::TempStore};
 
 fn bench_put(c: &mut Criterion) {
     let (_raii, store) = TempStore::init(201);
@@ -16,6 +18,7 @@ fn bench_put(c: &mut Criterion) {
 
 fn bench_batched_put(c: &mut Criterion) {
     let (_raii, store) = TempStore::init(201);
+    let store = Arc::new(store);
 
     c.bench_function("bench-batched-put", |b| {
         b.iter(|| {
@@ -32,6 +35,7 @@ fn bench_batched_put(c: &mut Criterion) {
 
 fn bench_mixed(c: &mut Criterion) {
     let (_raii, store) = TempStore::init(201);
+    let store = Arc::new(store);
 
     c.bench_function("bench-batched-put", |b| {
         b.iter(|| {

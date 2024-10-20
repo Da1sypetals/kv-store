@@ -1,19 +1,24 @@
 use crate::{definitions::types::ByteVec, records::log_record::LogRecordPtr, store::store::Store};
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
 
 pub enum BatchedIndexPtr {
     Put(LogRecordPtr),
     Delete,
 }
 
-pub struct BatchedIndex<'a> {
+pub struct BatchedIndex {
     /// Maps `key` to the **last** **meaningful** write operation related to itself,
     ///     omitting intermediate operations.
     pub ptr: HashMap<ByteVec, BatchedIndexPtr>,
-    pub store: &'a Store,
 }
 
-impl BatchedIndex<'_> {
+impl BatchedIndex {
+    pub fn new() -> Self {
+        BatchedIndex {
+            ptr: HashMap::new(),
+        }
+    }
+
     pub fn mark_put(&mut self, key: ByteVec, value: LogRecordPtr) {
         self.ptr.insert(key, BatchedIndexPtr::Put(value));
     }
@@ -27,15 +32,15 @@ impl BatchedIndex<'_> {
     }
 }
 
-impl BatchedIndex<'_> {
-    pub(crate) fn commit(&self) {
+impl BatchedIndex {
+    pub(crate) fn commit(&self, store: &Store) {
         for (key, val) in self.ptr.iter() {
             match val {
                 BatchedIndexPtr::Put(ptr) => {
-                    self.store.index.put(key.clone(), ptr.clone());
+                    store.index.put(key.clone(), ptr.clone());
                 }
                 BatchedIndexPtr::Delete => {
-                    self.store.index.delete(key.clone());
+                    store.index.delete(key.clone());
                 }
             }
         }
